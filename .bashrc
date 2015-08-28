@@ -22,3 +22,4 @@ alias hs-activate='eval "$(/app/halcyon/halcyon paths)"'
 export PATH=$PATH:~/.composer/vendor/bin
 export PATH=$PATH:~/.cabal/bin
 export PATH=$PATH:~/Scripts
+export TERM=xterm-256color

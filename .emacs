@@ -24,22 +24,20 @@ re-downloaded in order to locate PACKAGE."
 ;;;;;;; PACKAGES TO INSTALL
 (require-package 'evil)
 (require-package 'haskell-mode)
-(require-package 'relative-line-numbers)
+(require-package 'linum-relative)
 (require-package 'key-chord)
-(require-package 'solarized-theme)
+(require-package 'color-theme)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;; EMACS SETTINGS ;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; zsh shell integration
-(setenv "ESHELL" (expand-file-name "~/configs/zsh_shell_emacs"))
 ;; GUI
 (menu-bar-mode -1)
 (tool-bar-mode 1)
 (scroll-bar-mode -1)
 (setq inhibit-splash-screen t
-       initial-scratch-message nil)
- (setq column-number-mode t)
+      initial-scratch-message nil)
+(setq column-number-mode t)
 ;; INDENDING
 (setq tab-width 2
       indent-tabs-mode nil)
@@ -56,8 +54,6 @@ re-downloaded in order to locate PACKAGE."
 ;; RECENT FILES
 (recentf-mode 1)
 (global-set-key (kbd "<f7>") 'recentf-open-files)
-;; THEME
-(load-theme 'solarized-dark t)
 ;; IDO MODE FIX CREATING FILES
 (setq ido-auto-merge-work-directories-length -1)
 ;;; HIGHLIGHT 80 LINE
@@ -69,6 +65,12 @@ re-downloaded in order to locate PACKAGE."
 ;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; MODES SETTINGS ;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;;;; RELATIVE-LINE-NUMBERS
+(require 'linum-relative)
+(global-linum-mode)
+(add-hook 'after-init-hool #'linum-relative-toggle)
+(setq linum-relative-format "%2s ")
 
 ;;;; HASKELL MODE
 (setq haskell-font-lock-symbols t)
@@ -86,32 +88,37 @@ re-downloaded in order to locate PACKAGE."
 (lexical-let ((default-color (cons (face-background 'mode-line)
                                    (face-foreground 'mode-line))))
   (add-hook 'post-command-hook
-    (lambda ()
-      (let ((color (cond ((minibufferp) default-color)
-                         ((evil-insert-state-p) '("#e80000" . "#ffffff"))
-                         ((evil-emacs-state-p)  '("#af00d7" . "#ffffff"))
-                         ((evil-visual-state-p)   '("#CC6600" . "#ffffff"))
-                         ((buffer-modified-p)   '("#006fa0" . "#ffffff"))
-                         (t '("#006600" . "#ffffff")))))
-        (set-face-background 'mode-line (car color))
-        (set-face-foreground 'mode-line (cdr color))))))
-;; CUSTOM BINDINGS 
-(define-key evil-normal-state-map "\C-y" 'yank)
-(define-key evil-insert-state-map "\C-y" 'yank)
-(define-key evil-visual-state-map "\C-y" 'yank)
-(define-key evil-normal-state-map "\C-e" 'evil-end-of-line)
-(define-key evil-insert-state-map "\C-e" 'end-of-line)
-(define-key evil-visual-state-map "\C-e" 'evil-end-of-line)
-(define-key evil-motion-state-map "\C-e" 'evil-end-of-line)
-(define-key evil-normal-state-map "\C-a" 'evil-beginning-of-line)
-(define-key evil-insert-state-map "\C-a" 'beginning-of-line)
-(define-key evil-visual-state-map "\C-a" 'evil-beginning-of-line)
-(define-key evil-motion-state-map "\C-a" 'evil-beginning-of-line)
-(require 'key-chord)
-(key-chord-mode 1)
-(key-chord-define-global "jk" 'evil-normal-state)
-(define-key evil-normal-state-map (kbd "j") 'evil-next-visual-line)
-(define-key evil-normal-state-map (kbd "k") 'evil-previous-visual-line)
-;;;; RELATIVE-LINE-NUMBERS
-(require 'relative-line-numbers)
-(global-relative-line-numbers-mode)
+            (lambda ()
+              (let ((color (cond ((minibufferp) default-color)
+                                 ((evil-insert-state-p) '("#e80000" . "#ffffff"))
+                                 ((evil-emacs-state-p)  '("#666333" . "#ffffff"))
+                                 ((evil-visual-state-p)   '("#CC6600" . "#ffffff"))
+                                 ((buffer-modified-p)   '("#006fa0" . "#ffffff"))
+                                 (t '("#003300" . "#ffffff")))))
+                (set-face-background 'mode-line (car color))
+                (set-face-foreground 'mode-line (cdr color))
+                (set-face-attribute 'linum nil :background (car color))
+                (set-face-attribute 'linum nil :foreground (cdr color))
+		))))
+
+  ;; CUSTOM BINDINGS 
+  (define-key evil-normal-state-map "\C-y" 'yank)
+  (define-key evil-insert-state-map "\C-y" 'yank)
+  (define-key evil-visual-state-map "\C-y" 'yank)
+  (define-key evil-normal-state-map "\C-e" 'evil-end-of-line)
+  (define-key evil-insert-state-map "\C-e" 'end-of-line)
+  (define-key evil-visual-state-map "\C-e" 'evil-end-of-line)
+  (define-key evil-motion-state-map "\C-e" 'evil-end-of-line)
+  (define-key evil-normal-state-map "\C-a" 'evil-beginning-of-line)
+  (define-key evil-insert-state-map "\C-a" 'beginning-of-line)
+  (define-key evil-visual-state-map "\C-a" 'evil-beginning-of-line)
+  (define-key evil-motion-state-map "\C-a" 'evil-beginning-of-line)
+  (require 'key-chord)
+  (key-chord-mode 1)
+  (key-chord-define-global "jk" 'evil-normal-state)
+  (define-key evil-normal-state-map (kbd "j") 'evil-next-visual-line)
+  (define-key evil-normal-state-map (kbd "k") 'evil-previous-visual-line)
+;;;; COLOR-THEME
+(require 'color-theme)
+(color-theme-initialize)
+(color-theme-calm-forest)
