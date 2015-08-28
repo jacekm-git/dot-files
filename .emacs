@@ -27,11 +27,12 @@ re-downloaded in order to locate PACKAGE."
 (require-package 'relative-line-numbers)
 (require-package 'key-chord)
 (require-package 'solarized-theme)
-(require-package 'helm)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;; EMACS SETTINGS ;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; zsh shell integration
+(setenv "ESHELL" (expand-file-name "~/configs/zsh_shell_emacs"))
 ;; GUI
 (menu-bar-mode -1)
 (tool-bar-mode 1)
@@ -114,7 +115,3 @@ re-downloaded in order to locate PACKAGE."
 ;;;; RELATIVE-LINE-NUMBERS
 (require 'relative-line-numbers)
 (global-relative-line-numbers-mode)
-
-;;;; Helm
-(require 'helm)
-(helm-mode)
