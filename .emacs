@@ -25,6 +25,7 @@ re-downloaded in order to locate PACKAGE."
 (require-package 'evil)
 (require-package 'haskell-mode)
 (require-package 'linum-relative)
+(require-package 'linum-off)
 (require-package 'key-chord)
 (require-package 'color-theme)
 
@@ -51,6 +52,7 @@ re-downloaded in order to locate PACKAGE."
       ido-use-virtual-buffers t)
 ;; COLOR SHELL
 (add-hook 'shell-mode-hook 'ansi-color-for-comint-mode-on)
+(setq system-uses-terminfo nil)
 ;; RECENT FILES
 (recentf-mode 1)
 (global-set-key (kbd "<f7>") 'recentf-open-files)
@@ -67,10 +69,11 @@ re-downloaded in order to locate PACKAGE."
 ;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;;;; RELATIVE-LINE-NUMBERS
+(require 'linum-off)
 (require 'linum-relative)
 (global-linum-mode)
-(add-hook 'after-init-hool #'linum-relative-toggle)
 (setq linum-relative-format "%2s ")
+(add-hook 'term-mode-hook 'linum-on)
 
 ;;;; HASKELL MODE
 (setq haskell-font-lock-symbols t)
