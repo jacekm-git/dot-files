@@ -14,7 +14,7 @@ re-downloaded in order to locate PACKAGE."
       (progn
         (package-refresh-contents)
         (require-package package min-version t)))))
-;;;;;;; PACKAGE REPOS 
+;;;;;;; PACKAGE REPOS
 (require 'package)
 (push '("marmalade" . "http://marmalade-repo.org/packages/") package-archives )
 (push '("melpa" . "http://melpa.milkbox.net/packages/") package-archives)
@@ -87,7 +87,7 @@ re-downloaded in order to locate PACKAGE."
                                    (face-foreground 'mode-line))))
   (add-hook 'post-command-hook
             (lambda ()
-              (let ((color (cond ((minibufferp) default-color) 
+              (let ((color (cond ((minibufferp) default-color)
                                  ((evil-insert-state-p) '("#751919" . "#ffffff"))
                                  ((evil-emacs-state-p)  default-color)
                                  ((evil-visual-state-p) '("#CC6600" . "#ffffff"))
@@ -96,7 +96,7 @@ re-downloaded in order to locate PACKAGE."
                 (set-face-background 'mode-line (car color))
                 (set-face-foreground 'mode-line (cdr color))))))
 
-;; CUSTOM BINDINGS 
+;; CUSTOM BINDINGS
 (define-key evil-normal-state-map "\C-y" 'yank)
 (define-key evil-insert-state-map "\C-y" 'yank)
 (define-key evil-visual-state-map "\C-y" 'yank)
@@ -110,7 +110,7 @@ re-downloaded in order to locate PACKAGE."
 (define-key evil-motion-state-map "\C-a" 'evil-beginning-of-line)
 (define-key evil-normal-state-map (kbd "j") 'evil-next-visual-line)
 (define-key evil-normal-state-map (kbd "k") 'evil-previous-visual-line)
-
+(define-key evil-normal-state-map (kbd "C-u") 'evil-scroll-up)
 ;;;; COLOR-THEME
 (require 'color-theme)
 (color-theme-initialize)
@@ -130,3 +130,8 @@ re-downloaded in order to locate PACKAGE."
 (add-hook 'interactive-haskell-mode-hook 'ac-haskell-process-setup)
 (eval-after-load "auto-complete"
     '(add-to-list 'ac-modes 'interactive-haskell-mode))
+(custom-set-variables
+ '(haskell-stylish-on-save t)
+ '(haskell-tags-on-save t))
+(add-hook 'before-save-hook 'delete-trailing-whitespace)
+(add-hook 'before-save-hook 'evil-normal-state)
