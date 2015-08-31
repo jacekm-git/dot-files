@@ -16,18 +16,18 @@ re-downloaded in order to locate PACKAGE."
         (require-package package min-version t)))))
 ;;;;;;; PACKAGE REPOS 
 (require 'package)
-(push '("marmalade" . "http://marmalade-repo.org/packages/")
-      package-archives )
-(push '("melpa" . "http://melpa.milkbox.net/packages/")
-      package-archives)
+(push '("marmalade" . "http://marmalade-repo.org/packages/") package-archives )
+(push '("melpa" . "http://melpa.milkbox.net/packages/") package-archives)
 (package-initialize)
 ;;;;;;; PACKAGES TO INSTALL
 (require-package 'evil)
+(require-package 'undo-tree)
+(require-package 'goto-last-change)
 (require-package 'haskell-mode)
 (require-package 'linum-relative)
 (require-package 'linum-off)
-(require-package 'key-chord)
 (require-package 'color-theme)
+(require-package 'auto-complete)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;; EMACS SETTINGS ;;;;;
@@ -36,14 +36,16 @@ re-downloaded in order to locate PACKAGE."
 (menu-bar-mode -1)
 (tool-bar-mode 1)
 (scroll-bar-mode -1)
-(setq inhibit-splash-screen t
-      initial-scratch-message nil)
+(setq inhibit-splash-screen t initial-scratch-message nil)
 (setq column-number-mode t)
 ;; INDENDING
-(setq tab-width 2
-      indent-tabs-mode nil)
+(setq tab-width 2 indent-tabs-mode nil)
 ;; BACKUP FILES
-(setq make-backup-files nil)
+(setq backup-directory-alist '(("." . "~/.emacs.d/backups")))
+(setq delete-old-versions -1)
+(setq version-control t)
+(setq vc-make-backup-files t)
+(setq auto-save-file-name-transforms '((".*" "~/.emacs.d/auto-save-list/" t)))
 ;; HIGHLIGHT PARENTHESIS
 (show-paren-mode t)
 ;; IDO MODE
@@ -75,53 +77,56 @@ re-downloaded in order to locate PACKAGE."
 (setq linum-relative-format "%2s ")
 (add-hook 'term-mode-hook 'linum-on)
 
-;;;; HASKELL MODE
-(setq haskell-font-lock-symbols t)
-(add-hook 'haskell-mode-hook 'turn-on-haskell-doc-mode)
-(add-hook 'haskell-mode-hook 'haskell-indentation-mode)
-
 ;;;; EVIL MODE
 ;; ENABLE EVIL MODE
 (require 'evil)
 (evil-mode 1)
-(evil-set-initial-state 'shell-mode 'emacs)
-(evil-set-initial-state 'dired-mode 'emacs)
 ;; COLOR MODES
-(require 'cl)
+(require 'cl);;;;
 (lexical-let ((default-color (cons (face-background 'mode-line)
                                    (face-foreground 'mode-line))))
   (add-hook 'post-command-hook
             (lambda ()
-              (let ((color (cond ((minibufferp) default-color)
-                                 ((evil-insert-state-p) '("#e80000" . "#ffffff"))
-                                 ((evil-emacs-state-p)  '("#666333" . "#ffffff"))
-                                 ((evil-visual-state-p)   '("#CC6600" . "#ffffff"))
-                                 ((buffer-modified-p)   '("#006fa0" . "#ffffff"))
-                                 (t '("#003300" . "#ffffff")))))
+              (let ((color (cond ((minibufferp) default-color) 
+                                 ((evil-insert-state-p) '("#751919" . "#ffffff"))
+                                 ((evil-emacs-state-p)  default-color)
+                                 ((evil-visual-state-p) '("#CC6600" . "#ffffff"))
+                                 ((buffer-modified-p)   '("#006666" . "#ffffff"))
+                                 (t '("#303030" . "#ffffff")))))
                 (set-face-background 'mode-line (car color))
-                (set-face-foreground 'mode-line (cdr color))
-                (set-face-attribute 'linum nil :background (car color))
-                (set-face-attribute 'linum nil :foreground (cdr color))
-		))))
+                (set-face-foreground 'mode-line (cdr color))))))
 
-  ;; CUSTOM BINDINGS 
-  (define-key evil-normal-state-map "\C-y" 'yank)
-  (define-key evil-insert-state-map "\C-y" 'yank)
-  (define-key evil-visual-state-map "\C-y" 'yank)
-  (define-key evil-normal-state-map "\C-e" 'evil-end-of-line)
-  (define-key evil-insert-state-map "\C-e" 'end-of-line)
-  (define-key evil-visual-state-map "\C-e" 'evil-end-of-line)
-  (define-key evil-motion-state-map "\C-e" 'evil-end-of-line)
-  (define-key evil-normal-state-map "\C-a" 'evil-beginning-of-line)
-  (define-key evil-insert-state-map "\C-a" 'beginning-of-line)
-  (define-key evil-visual-state-map "\C-a" 'evil-beginning-of-line)
-  (define-key evil-motion-state-map "\C-a" 'evil-beginning-of-line)
-  (require 'key-chord)
-  (key-chord-mode 1)
-  (key-chord-define-global "jk" 'evil-normal-state)
-  (define-key evil-normal-state-map (kbd "j") 'evil-next-visual-line)
-  (define-key evil-normal-state-map (kbd "k") 'evil-previous-visual-line)
+;; CUSTOM BINDINGS 
+(define-key evil-normal-state-map "\C-y" 'yank)
+(define-key evil-insert-state-map "\C-y" 'yank)
+(define-key evil-visual-state-map "\C-y" 'yank)
+(define-key evil-normal-state-map "\C-e" 'evil-end-of-line)
+(define-key evil-insert-state-map "\C-e" 'end-of-line)
+(define-key evil-visual-state-map "\C-e" 'evil-end-of-line)
+(define-key evil-motion-state-map "\C-e" 'evil-end-of-line)
+(define-key evil-normal-state-map "\C-a" 'evil-beginning-of-line)
+(define-key evil-insert-state-map "\C-a" 'beginning-of-line)
+(define-key evil-visual-state-map "\C-a" 'evil-beginning-of-line)
+(define-key evil-motion-state-map "\C-a" 'evil-beginning-of-line)
+(define-key evil-normal-state-map (kbd "j") 'evil-next-visual-line)
+(define-key evil-normal-state-map (kbd "k") 'evil-previous-visual-line)
+
 ;;;; COLOR-THEME
 (require 'color-theme)
 (color-theme-initialize)
 (color-theme-calm-forest)
+(set-face-attribute 'linum nil :background '"#303030")
+(set-face-attribute 'linum nil :foreground '"#fffff")
+
+;;; AUTO COMPLETE
+(require 'auto-complete)
+(ac-config-default)
+(global-auto-complete-mode t)
+;;;; HASKELL MODE
+(add-hook 'haskell-mode-hook 'turn-on-haskell-doc-mode)
+(add-hook 'haskell-mode-hook 'turn-on-haskell-indentation)
+(add-hook 'haskell-mode-hook 'interactive-haskell-mode)
+(add-hook 'haskell-mode-hook 'auto-complete-mode)
+(add-hook 'interactive-haskell-mode-hook 'ac-haskell-process-setup)
+(eval-after-load "auto-complete"
+    '(add-to-list 'ac-modes 'interactive-haskell-mode))
