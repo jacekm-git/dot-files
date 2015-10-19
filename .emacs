@@ -40,6 +40,11 @@ re-downloaded in order to locate PACKAGE."
 (setq column-number-mode t)
 ;; INDENDING
 (setq tab-width 2 indent-tabs-mode nil)
+(defun my-web-mode-hook ()
+  "Hooks for Web mode."
+  (setq web-mode-markup-indent-offset 2)
+  )
+(add-hook 'web-mode-hook  'my-web-mode-hook)
 ;; BACKUP FILES
 (setq backup-directory-alist '(("." . "~/.emacs.d/backups")))
 (setq delete-old-versions -1)
@@ -65,6 +70,8 @@ re-downloaded in order to locate PACKAGE."
   (highlight-lines-matching-regexp ".\\{81\\}" 'hi-yellow))
 (add-hook 'haskell-mode-hook 'highlight-80)
 (add-hook 'python-mode-hook 'highlight-80)
+;;; SUSPEND EMACS
+(global-set-key (kbd "C-q") 'suspend-emacs)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; MODES SETTINGS ;;;;;;
@@ -131,7 +138,18 @@ re-downloaded in order to locate PACKAGE."
 (eval-after-load "auto-complete"
     '(add-to-list 'ac-modes 'interactive-haskell-mode))
 (custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(cursor-type (quote bar))
  '(haskell-stylish-on-save t)
  '(haskell-tags-on-save t))
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
 (add-hook 'before-save-hook 'evil-normal-state)
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
