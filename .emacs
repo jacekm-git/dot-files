@@ -1,8 +1,18 @@
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;;; PACKAGES MANAGMENT SETTINGS ;;;;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-;;;;;;; CHECK AND AUTO INSTALL PACKAGE
+;; Outline keys
+(define-key emacs-lisp-mode-map (kbd "C-c C-s") 'show-subtree)
+(define-key emacs-lisp-mode-map (kbd "C-c C-d") 'hide-subtree)
+(define-key emacs-lisp-mode-map (kbd "C-c C-t") 'hide-body)
+(define-key emacs-lisp-mode-map (kbd "C-c C-a") 'show-all)
+;; Outline mode settings*
+(add-hook 'emacs-lisp-mode-hook
+          (lambda ()
+	    (make-local-variable 'outline-regexp)
+	    (setq outline-regexp "^;; ")
+	    (make-local-variable 'outline-heading-end-regexp)
+	    (setq outline-heading-end-regexp "*\n")
+	    (outline-minor-mode 1)
+	    ))
+;; Packages*
 (defun require-package (package &optional min-version no-refresh)
   "Install given PACKAGE, optionally requiring MIN-VERSION.
 If NO-REFRESH is non-nil, the available package lists will not be
@@ -14,12 +24,12 @@ re-downloaded in order to locate PACKAGE."
       (progn
         (package-refresh-contents)
         (require-package package min-version t)))))
-;;;;;;; PACKAGE REPOS
+; PACKAGE REPOS
 (require 'package)
 (push '("marmalade" . "http://marmalade-repo.org/packages/") package-archives )
 (push '("melpa" . "http://melpa.milkbox.net/packages/") package-archives)
 (package-initialize)
-;;;;;;; PACKAGES TO INSTALL
+; PACKAGES TO INSTALL
 (require-package 'evil)
 (require-package 'undo-tree)
 (require-package 'goto-last-change)
@@ -28,67 +38,54 @@ re-downloaded in order to locate PACKAGE."
 (require-package 'linum-off)
 (require-package 'color-theme)
 (require-package 'auto-complete)
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;;; EMACS SETTINGS ;;;;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; GUI
+;; GUI*
 (menu-bar-mode -1)
 (tool-bar-mode 1)
 (scroll-bar-mode -1)
 (setq inhibit-splash-screen t initial-scratch-message nil)
 (setq column-number-mode t)
-;; INDENDING
-(setq tab-width 2 indent-tabs-mode nil)
+;; INDENTING*
+(setq tab-width 4 indent-tabs-mode nil)
 (defun my-web-mode-hook ()
   "Hooks for Web mode."
-  (setq web-mode-markup-indent-offset 2)
+  (setq web-mode-markup-indent-offset 4)
   )
 (add-hook 'web-mode-hook  'my-web-mode-hook)
-;; BACKUP FILES
+;; BACKUP FILES*
 (setq backup-directory-alist '(("." . "~/.emacs.d/backups")))
 (setq delete-old-versions -1)
 (setq version-control t)
 (setq vc-make-backup-files t)
-(setq auto-save-file-name-transforms '((".*" "~/.emacs.d/auto-save-list/" t)))
-;; HIGHLIGHT PARENTHESIS
+(setq auto-save-file-name-transforms '((".;" "~/.emacs.d/auto-save-list/" t)))
+;; HIGHLIGHT PARENTHESIS*
 (show-paren-mode t)
-;; IDO MODE
+;; IDO MODE*
 (ido-mode t)
 (setq ido-enable-flex-matching t
       ido-use-virtual-buffers t)
-;; COLOR SHELL
+;; COLOR SHELL*
 (add-hook 'shell-mode-hook 'ansi-color-for-comint-mode-on)
 (setq system-uses-terminfo nil)
-;; RECENT FILES
+;; RECENT FILES*
 (recentf-mode 1)
 (global-set-key (kbd "<f7>") 'recentf-open-files)
-;; IDO MODE FIX CREATING FILES
+;; IDO MODE FIX CREATING FILES*
 (setq ido-auto-merge-work-directories-length -1)
-;;; HIGHLIGHT 80 LINE
+;; HIGHLIGHT 80 LINE*
 (defun highlight-80 ()
   (highlight-lines-matching-regexp ".\\{81\\}" 'hi-yellow))
 (add-hook 'haskell-mode-hook 'highlight-80)
 (add-hook 'python-mode-hook 'highlight-80)
-;;; SUSPEND EMACS
-(global-set-key (kbd "C-q") 'suspend-emacs)
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;; MODES SETTINGS ;;;;;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-;;;; RELATIVE-LINE-NUMBERS
+;; RELATIVE-LINE-NUMBERS*
 (require 'linum-off)
 (require 'linum-relative)
 (global-linum-mode)
 (setq linum-relative-format "%2s ")
 (add-hook 'term-mode-hook 'linum-on)
-
-;;;; EVIL MODE
-;; ENABLE EVIL MODE
+;; EVIL MODE*
 (require 'evil)
 (evil-mode 1)
-;; COLOR MODES
+; COLORS 
 (require 'cl);;;;
 (lexical-let ((default-color (cons (face-background 'mode-line)
                                    (face-foreground 'mode-line))))
@@ -103,7 +100,7 @@ re-downloaded in order to locate PACKAGE."
                 (set-face-background 'mode-line (car color))
                 (set-face-foreground 'mode-line (cdr color))))))
 
-;; CUSTOM BINDINGS
+; CUSTOM BINDINGS
 (define-key evil-normal-state-map "\C-y" 'yank)
 (define-key evil-insert-state-map "\C-y" 'yank)
 (define-key evil-visual-state-map "\C-y" 'yank)
@@ -118,18 +115,17 @@ re-downloaded in order to locate PACKAGE."
 (define-key evil-normal-state-map (kbd "j") 'evil-next-visual-line)
 (define-key evil-normal-state-map (kbd "k") 'evil-previous-visual-line)
 (define-key evil-normal-state-map (kbd "C-u") 'evil-scroll-up)
-;;;; COLOR-THEME
+;; COLOR-THEME*
 (require 'color-theme)
 (color-theme-initialize)
 (color-theme-calm-forest)
 (set-face-attribute 'linum nil :background '"#303030")
 (set-face-attribute 'linum nil :foreground '"#fffff")
-
-;;; AUTO COMPLETE
+;; AUTO COMPLETE*
 (require 'auto-complete)
 (ac-config-default)
 (global-auto-complete-mode t)
-;;;; HASKELL MODE
+;; HASKELL MODE*
 (add-hook 'haskell-mode-hook 'turn-on-haskell-doc-mode)
 (add-hook 'haskell-mode-hook 'turn-on-haskell-indentation)
 (add-hook 'haskell-mode-hook 'interactive-haskell-mode)
@@ -137,19 +133,3 @@ re-downloaded in order to locate PACKAGE."
 (add-hook 'interactive-haskell-mode-hook 'ac-haskell-process-setup)
 (eval-after-load "auto-complete"
     '(add-to-list 'ac-modes 'interactive-haskell-mode))
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(cursor-type (quote bar))
- '(haskell-stylish-on-save t)
- '(haskell-tags-on-save t))
-(add-hook 'before-save-hook 'delete-trailing-whitespace)
-(add-hook 'before-save-hook 'evil-normal-state)
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
