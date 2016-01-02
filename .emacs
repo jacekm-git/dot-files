@@ -11,6 +11,7 @@
 	    (make-local-variable 'outline-heading-end-regexp)
 	    (setq outline-heading-end-regexp "*\n")
 	    (outline-minor-mode 1)
+	    (hide-body)
 	    ))
 ;; Packages*
 (defun require-package (package &optional min-version no-refresh)
@@ -63,9 +64,6 @@ re-downloaded in order to locate PACKAGE."
 (ido-mode t)
 (setq ido-enable-flex-matching t
       ido-use-virtual-buffers t)
-;; COLOR SHELL*
-(add-hook 'shell-mode-hook 'ansi-color-for-comint-mode-on)
-(setq system-uses-terminfo nil)
 ;; RECENT FILES*
 (recentf-mode 1)
 (global-set-key (kbd "<f7>") 'recentf-open-files)

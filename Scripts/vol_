@@ -1,0 +1,6 @@
+#!/bin/sh
+amixer sset 'Speaker+LO' 100%
+case $1 in
+    up) ponymix increase 10 ;;
+    down) ponymix decrease 10 ;;    
+esac

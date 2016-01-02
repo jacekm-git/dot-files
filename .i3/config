@@ -155,8 +155,8 @@ bindsym $mod+r mode "resize"
 bar {
 #        status_command i3status
 	status_command $HOME/Scripts/conky-i3bar.sh
-	wheel_up_cmd exec --no-startup-id ponymix increase 10
-	wheel_down_cmd exec --no-startup-id ponymix decrease 10
+	wheel_up_cmd exec --no-startup-id ~/configs/Scripts/vol_ up
+	wheel_down_cmd exec --no-startup-id ~/configs/Scripts/vol_ down
 	position top
 	font pango:FontAwesome 10
 }
