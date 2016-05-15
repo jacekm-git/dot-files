@@ -37,11 +37,11 @@ re-downloaded in order to locate PACKAGE."
 (require-package 'haskell-mode)
 (require-package 'linum-relative)
 (require-package 'linum-off)
-(require-package 'color-theme)
 (require-package 'auto-complete)
+(require-package 'atom-dark-theme)
 ;; GUI*
 (menu-bar-mode -1)
-(tool-bar-mode 1)
+(tool-bar-mode -1)
 (scroll-bar-mode -1)
 (setq inhibit-splash-screen t initial-scratch-message nil)
 (setq column-number-mode t)
@@ -78,6 +78,7 @@ re-downloaded in order to locate PACKAGE."
 (require 'linum-off)
 (require 'linum-relative)
 (global-linum-mode)
+(linum-relative-global-mode t)
 (setq linum-relative-format "%2s ")
 (add-hook 'term-mode-hook 'linum-on)
 ;; EVIL MODE*
@@ -114,11 +115,9 @@ re-downloaded in order to locate PACKAGE."
 (define-key evil-normal-state-map (kbd "k") 'evil-previous-visual-line)
 (define-key evil-normal-state-map (kbd "C-u") 'evil-scroll-up)
 ;; COLOR-THEME*
-(require 'color-theme)
-(color-theme-initialize)
-(color-theme-calm-forest)
-(set-face-attribute 'linum nil :background '"#303030")
-(set-face-attribute 'linum nil :foreground '"#fffff")
+;; x-clip*
+;enable x clipboard
+(xclip-mode 1)
 ;; AUTO COMPLETE*
 (require 'auto-complete)
 (ac-config-default)
@@ -131,3 +130,25 @@ re-downloaded in order to locate PACKAGE."
 (add-hook 'interactive-haskell-mode-hook 'ac-haskell-process-setup)
 (eval-after-load "auto-complete"
     '(add-to-list 'ac-modes 'interactive-haskell-mode))
+;; org-mode*
+; The following lines are always needed.  Choose your own keys.
+(global-set-key "\C-cl" 'org-store-link)
+(global-set-key "\C-ca" 'org-agenda)
+(global-set-key "\C-cc" 'org-capture)
+(global-set-key "\C-cb" 'org-iswitchb)
+;; Auto generated*
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(custom-enabled-themes (quote (atom-dark)))
+ '(custom-safe-themes
+   (quote
+    ("a1289424bbc0e9f9877aa2c9a03c7dfd2835ea51d8781a0bf9e2415101f70a7e" default))))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
