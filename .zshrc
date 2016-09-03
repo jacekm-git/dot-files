@@ -1,7 +1,8 @@
 # Path to your oh-my-zsh installation.
 export ZSH=/home/jacek/.oh-my-zsh
 [[ $EMACS = t ]] && unsetopt zle
-
+EDITOR=emacs
+autoload zmv
 # Set name of the theme to load.
 # Look in ~/.oh-my-zsh/themes/
 # Optionally, if you set this to "random", it'll load a random theme each
@@ -53,7 +54,7 @@ plugins=(git)
 
 # User configuration
 
-export PATH="/usr/local/sbin:/usr/local/bin:/usr/bin:/usr/bin/site_perl:/usr/bin/vendor_perl:/usr/bin/core_perl:/home/jacek/.composer/vendor/bin:/home/jacek/.cabal/bin:/home/jacek/Scripts:/home/jacek/.composer/vendor/bin:vendor/bin:."
+export PATH="/usr/local/sbin:/usr/local/bin:/usr/bin:/usr/bin/site_perl:/usr/bin/vendor_perl:/usr/bin/core_perl:/home/jacek/.composer/vendor/bin:/home/jacek/.cabal/bin:/home/jacek/Scripts:/home/jacek/.composer/vendor/bin:vendor/bin:/home/jacek/android_sdk/tools/:."
 export TERM=xterm-256color
 source $ZSH/oh-my-zsh.sh
 
@@ -82,8 +83,13 @@ source $ZSH/oh-my-zsh.sh
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
-alias emacs="emacsclient -t"
+alias gemacs="emacsclient -c"
 alias semacs="SUDO_EDITOR=\"emacsclient -t\" sudo -e"
+alias emacs="emacsclient -t"
 alias cp='rsync -aP'
 alias reload="source ~/.zshrc"
-if [ -z ${TMUX+x} ]; then tmux; fi
+alias pbcopy="xclip -selection c"
+alias pbpaste="xclip -selection clipboard -o"
+if [ -z ${TMUX+x} ]; then tmux -2 attach-session -t auto || tmux -2 new-session -s auto; fi
+export XDG_RUNTIME_DIR="/run/user/$UID"
+export DBUS_SESSION_BUS_ADDRESS="unix:path=${XDG_RUNTIME_DIR}/bus"

@@ -166,7 +166,7 @@ bar {
 	font pango:FontAwesome 10
 }
 # setting wallpaper
-exec --no-startup-id feh --bg-scale ~/Images/wall.jpg
+exec --no-startup-id ~/Scripts/random_wallpaper.sh 
 # start tmux
 exec --no-startup-id lilyterm
 set $mode_system System (l) lock, (e) logout, (s) suspend, (h) hibernate, (r) reboot, (Shift+s) shutdown

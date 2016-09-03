@@ -136,6 +136,9 @@ re-downloaded in order to locate PACKAGE."
 (global-set-key "\C-ca" 'org-agenda)
 (global-set-key "\C-cc" 'org-capture)
 (global-set-key "\C-cb" 'org-iswitchb)
+;; Android mode*
+(require 'android-mode)
+(custom-set-variables '(android-mode-sdk-dir "~/android_sdk/"))
 ;; Auto generated*
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
@@ -152,3 +155,4 @@ re-downloaded in order to locate PACKAGE."
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  )
+
