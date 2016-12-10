@@ -1,0 +1,5 @@
+#! /usr/bin/sh
+sudo killall dhcpcd
+sudo ifconfig wlp2s0 down
+sudo macchanger -r wlp2s0
+sudo dhcpcd -E

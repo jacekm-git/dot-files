@@ -83,13 +83,7 @@ source $ZSH/oh-my-zsh.sh
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
-alias gemacs="emacsclient -c"
-alias semacs="SUDO_EDITOR=\"emacsclient -t\" sudo -e"
-alias emacs="emacsclient -t"
 alias cp='rsync -aP'
 alias reload="source ~/.zshrc"
-alias pbcopy="xclip -selection c"
-alias pbpaste="xclip -selection clipboard -o"
+alias c='cal -Y'
 if [ -z ${TMUX+x} ]; then tmux -2 attach-session -t auto || tmux -2 new-session -s auto; fi
-export XDG_RUNTIME_DIR="/run/user/$UID"
-export DBUS_SESSION_BUS_ADDRESS="unix:path=${XDG_RUNTIME_DIR}/bus"
