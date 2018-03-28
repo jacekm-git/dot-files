@@ -1,44 +1,52 @@
-conky.config = {
-    out_to_x=false,
-    use_xft=true,
-    xftfont="FontAwesome: 9",
-    override_utf8_locale=true,
-    own_window=false,
-    out_to_console=true,
-    background=false,
-    max_text_width=0,
-    update_interval=2.2,
-    total_run_times=0,
-    short_units=true,
-    if_up_strictness="address",
-    use_spacer="right",
-    font = "FontAwesome:size=9",
-    cpu_avg_samples=2}
+out_to_x no
+own_window no
+out_to_console yes
+background no
+max_text_width 0
 
-conky.text = [[
-    ,[
-#Ram usage
-{"full_text":"RAM: ","color":"\#006600","separator":false,"separator_block_width":6},\
-{"full_text":"${mem}/${memmax}","color":"\#2E9AFE","separator":false,"separator_block_width":6},\
-#CPU
-{"full_text":"CPU: ","color":"\#006600","separator":false,"separator_block_width":6},\
-{"full_text":"${cpu}%","color":"\#2E9AFE","separator":false,"separator_block_width":6},\
-#Wifi
-{"full_text":"\uf1eb ${gw_ip} ${wireless_essid}",\
-"color":"${if_up wlp12s0}\#00cc00${else}\#ff3${endif}","separator":false,"separator_block_width":6},\
-#Sound
-{"full_text":"${if_match ${exec ponymix get-volume}==0}\uf026${else}${if_match ${exec ponymix get-volume}<50}\uf027${else}\uf028${endif}${endif}","color":"\#006600","separator":false,"separator_block_width":6},\
-{"full_text":"${exec ponymix get-volume}% ","color":"\#2E9AFE","separator":false,"separator_block_width":6},\
-#Battery
-{"full_text":"${if_match ${battery_percent CMB1}>80}\uf240 ${else}${if_match ${battery_percent CMB1} > 55}\uf241 ${else}${if_match ${battery_percent CMB1} > 40}\uf242 ${else}${if_match ${battery_percent CMB1} > 20}\uf243 ${else} \uf244 ${endif}${endif}${endif}${endif}",\
-"color":"${if_match ${battery_percent CMB1}>80}\#33CC33 ${else}${if_match ${battery_percent CMB1} > 55}\#CCFF33 ${else}${if_match ${battery_percent CMB1} > 40}\#FF9900 ${else}${if_match ${battery_percent CMB1} > 20}\#CC3300${else}\#FF0000 ${endif}${endif}${endif}${endif}",\
-"separator":false,"separator_block_width":6},\
-{"full_text":"[${battery_short CMB1} ${battery_time CMB1}]","color":"\#2E9AFE","separator":false,"separator_block_width":6},\
-#Calendar
-{"full_text":"","color":"\#006600","separator":false,"separator_block_width":6},\
-{"full_text":"${time %A %F}","color":"\#2E9AFE","separator":false},\
-#time
-{"full_text":"\uf017","color":"\#006600","separator":false,"separator_block_width":6},\
-{"full_text":"${time %H:%M:%S} ","color":"\#2E9AFE","separator":false}]
-]]
-;
+# Update interval in seconds
+update_interval 2.0
+
+# This is the number of times Conky will update before quitting.
+# Set to zero to run forever.
+total_run_times 0
+
+# Shortens units to a single character (kiB->k, GiB->G, etc.). Default is off.
+short_units yes
+
+# How strict should if_up be when testing an interface for being up?
+# The value is one of up, link or address, to check for the interface
+# being solely up, being up and having link or being up, having link
+# and an assigned IP address. 
+if_up_strictness address
+
+# Add spaces to keep things from moving about?  This only affects certain objects.
+# use_spacer should have an argument of left, right, or none
+use_spacer left
+
+# Force UTF8? note that UTF8 support required XFT
+override_utf8_locale no
+
+# number of cpu samples to average
+# set to 1 to disable averaging
+cpu_avg_samples 2
+
+# Stuff after 'TEXT' will be formatted on screen
+TEXT
+
+
+# json
+# JSON for i3bar
+
+ [
+{"full_text": "${execi 300  curl -s "https://api.coinmarketcap.com/v1/ticker/" -o ~/rates.json}"},
+{"full_text": " BTC:${execi 0 cat ~/conky-crypto-coins/rates.json | jq -r '.[] | select(.symbol == "BTC") | .price_usd'}  ", "color":"\#B58900"},
+{"full_text": " BCH:${execi 0 cat ~/conky-crypto-coins/rates.json | jq -r '.[] | select(.symbol == "BCH") | .price_usd'}  ", "color":"\#7fff00"},
+{"full_text": " NANO: ${execi 0 cat ~/conky-crypto-coins/rates.json | jq -r '.[] | select(.symbol == "NANO") | .price_btc'}  ", "color":"\#00bfff"},
+{"full_text": " ADA: ${execi 0 cat ~/conky-crypto-coins/rates.json | jq -r '.[] | select(.symbol == "ADA") | .price_btc'}  ", "color":"\#f08080"},
+{"full_text": " Ram[$memeasyfree] ", "color":"\#B58900"},
+{"full_text": " [${wireless_essid wlp2s0}] ", "color":"\#00fa9a"},
+{"full_text": " / [${fs_free /}] ", "color": "\#99CC33"},
+{"full_text": " /home [${fs_free /home}] ", "color": "\#99CC33"},
+{"full_text": " ${time %Y-%m-%d %H:%M:%S} "}
+],

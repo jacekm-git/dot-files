@@ -1,3 +1,4 @@
-setxkbmap pl
-setxkbmap -option caps:escape
+/usr/lib/notify-osd/notify-osd &
 exec /usr/bin/i3
+
+
