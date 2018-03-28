@@ -1,3 +1,0 @@
-#!/usr/bin/sh
-docker pull jacekxp2/hspredictor:latest
-docker run --rm -i -t -v $(pwd):/app jacekxp2/hspredictor:latest $*
