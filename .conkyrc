@@ -39,11 +39,11 @@ TEXT
 # JSON for i3bar
 
  [
-{"full_text": "${execi 300  curl -s "https://api.coinmarketcap.com/v1/ticker/" -o ~/rates.json}"},
-{"full_text": " BTC:${execi 0 cat ~/conky-crypto-coins/rates.json | jq -r '.[] | select(.symbol == "BTC") | .price_usd'}  ", "color":"\#B58900"},
-{"full_text": " BCH:${execi 0 cat ~/conky-crypto-coins/rates.json | jq -r '.[] | select(.symbol == "BCH") | .price_usd'}  ", "color":"\#7fff00"},
-{"full_text": " NANO: ${execi 0 cat ~/conky-crypto-coins/rates.json | jq -r '.[] | select(.symbol == "NANO") | .price_btc'}  ", "color":"\#00bfff"},
-{"full_text": " ADA: ${execi 0 cat ~/conky-crypto-coins/rates.json | jq -r '.[] | select(.symbol == "ADA") | .price_btc'}  ", "color":"\#f08080"},
+{"full_text": "${execi 180  curl -s "https://api.coinmarketcap.com/v1/ticker/" -o ~/rates.json}"},
+{"full_text": " BTC:${execi 0 cat ~/rates.json | jq -r '.[] | select(.symbol == "BTC") | .price_usd'}  ", "color":"\#B58900"},
+{"full_text": " BCH:${execi 0 cat ~/rates.json | jq -r '.[] | select(.symbol == "BCH") | .price_usd'}  ", "color":"\#7fff00"},
+{"full_text": " NANO: ${execi 0 cat ~/rates.json | jq -r '.[] | select(.symbol == "NANO") | .price_btc'}  ", "color":"\#00bfff"},
+{"full_text": " ADA: ${execi 0 cat ~/rates.json | jq -r '.[] | select(.symbol == "ADA") | .price_btc'}  ", "color":"\#f08080"},
 {"full_text": " Ram[$memeasyfree] ", "color":"\#B58900"},
 {"full_text": " [${wireless_essid wlp2s0}] ", "color":"\#00fa9a"},
 {"full_text": " / [${fs_free /}] ", "color": "\#99CC33"},
