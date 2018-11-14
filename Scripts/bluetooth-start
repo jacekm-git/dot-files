@@ -1,0 +1,12 @@
+#!/usr/bin/expect -f
+
+set prompt "#"
+
+spawn bluetoothctl 
+expect -re $prompt
+send "\npower on\r"
+sleep 0.5
+expect -re $prompt
+send "discoverable on\r"
+sleep 0.5
+interact 
