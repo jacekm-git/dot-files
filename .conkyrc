@@ -35,17 +35,12 @@ cpu_avg_samples 2
 TEXT
 
 
-# json
 # JSON for i3bar
 
  [
 {"full_text": "${execi 180  curl -s "https://api.coinmarketcap.com/v1/ticker/" -o ~/rates.json}"},
-{"full_text": " BTC:${execi 0 cat ~/rates.json | jq -r '.[] | select(.symbol == "BTC") | .price_usd'} $$  ", "color":"\#B58900"},
-{"full_text": " LTC:${execi 0 cat ~/rates.json | jq -r '.[] | select(.symbol == "LTC") | .price_btc'} BTC  ", "color":"\#7fff00"},
-{"full_text": " NANO: ${execi 0 cat ~/rates.json | jq -r '.[] | select(.symbol == "NANO") | .price_btc'} BTC  ", "color":"\#00bfff"},
-{"full_text": " ADA: ${execi 0 cat ~/rates.json | jq -r '.[] | select(.symbol == "ADA") | .price_btc'} BTC ", "color":"\#f08080"},
-{"full_text": " Ram[$memeasyfree] ", "color":"\#B58900"},
-{"full_text": " [${wireless_essid wlp2s0}] ", "color":"\#00fa9a"},
+{"full_text": " RAM[$memeasyfree] ", "color":"\#B58900"},
+{"full_text": " WiFi[${wireless_essid wlp2s0}] ", "color":"\#00fa9a"},
 {"full_text": " / [${fs_free /}] ", "color": "\#99CC33"},
 {"full_text": " /home [${fs_free /home}] ", "color": "\#99CC33"},
 {"full_text": " ${time %Y-%m-%d %H:%M:%S} "}
